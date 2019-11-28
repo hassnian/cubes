@@ -27,7 +27,7 @@ describe("space",()=>{
 		space.addObject(cube1,cube1Coordinates);
 		space.addObject(cube2,cube2Coordinates);
 
-		const intersectionLength = space.calculateIntersectionOfPlanes(checkingPlane)
+		const intersectionLength = space.calculateIntersectionOfAPlane(checkingPlane)
 		expect(intersectionLength).toBe(expectedIntersectionLength)
 	});
 
@@ -45,7 +45,7 @@ describe("space",()=>{
 		space.addObject(cube1,cube1Coordinates);
 		space.addObject(cube2,cube2Coordinates);
 
-		const intersectionLength = space.calculateIntersectionOfPlanes(checkingPlane)
+		const intersectionLength = space.calculateIntersectionOfAPlane(checkingPlane)
 		expect(intersectionLength).toBe(expectedIntersectionLength)
 	});
 
@@ -124,4 +124,45 @@ describe("space",()=>{
 		const fartherObject= space.getIndexOfFartherObjectGivingTheIndexNearest(nearest)
 		expect(fartherObject).toBe(expectedIndex)
 	});
+
+	it('should return the intersection of two cubes in all the planes ',  ()  => {
+		const cubeDimensions = { x:5, y:5, z:5 }
+		const cube1Coordinates = { x:1, y:3, z:4 }
+		const cube2Coordinates = { x:3, y:4, z:4 }
+		const expectedIntersections = [3,4,5]
+
+		const space = new Space()
+		const cube1 = new Cube(cubeDimensions)
+		const cube2 = new Cube(cubeDimensions)
+
+		space.addObject(cube1,cube1Coordinates);
+		space.addObject(cube2,cube2Coordinates);
+
+		const intersectionLength = space.calculateIntersectionOfAllPlanes()
+		expect(intersectionLength).toMatchObject(expectedIntersections)
+	});
+
+	it('should return true if none of planes is 0 ',  ()  => {
+		const intersections = [1,2,1]
+
+		const expectedResponse = true
+
+		const space = new Space()
+
+		const resultIntersections = space.checkIfThereIsAnIntersectionOnAllPlanes(intersections)
+		expect(resultIntersections).toBe(expectedResponse)
+	});
+
+
+	it('should return false if there are any 0 ',  ()  => {
+		const intersections = [1,2,0]
+
+		const expectedResponse = false
+
+		const space = new Space()
+
+		const resultIntersections = space.checkIfThereIsAnIntersectionOnAllPlanes(intersections)
+		expect(resultIntersections).toBe(expectedResponse)
+	});
+
 })

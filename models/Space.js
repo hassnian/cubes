@@ -1,6 +1,7 @@
 class Space {
 	constructor(){
 		this.objectsInSpace = []
+		this.planes = ["x","y","z"]
 	}
 
 	addObject(cube,coordinates){
@@ -29,7 +30,7 @@ class Space {
 		return cube1Line.ends > cube2Line.starts
 	}
 
-	calculateIntersectionOfPlanes(plane){
+	calculateIntersectionOfAPlane(plane){
 		const indexOfNearest =this.getIndexObjectThatIsNearestToTheOrigin(plane)
 		const fartherObject =  this.getIndexOfFartherObjectGivingTheIndexNearest(indexOfNearest)
 
@@ -47,6 +48,20 @@ class Space {
 
 		return intersection
 	}
+
+	calculateIntersectionOfAllPlanes(){
+		return this.planes.map((plane)=> {
+			return this.calculateIntersectionOfAPlane(plane)
+		})
+	}
+
+	checkIfThereIsAnIntersectionOnAllPlanes(intersections){
+		if(intersections.includes(0)){
+			return false
+		}
+		return true
+	}
+
 
 }
 module.exports = { Space }
